@@ -1,0 +1,19 @@
+services:
+  postgres:
+    container_name: postgres-db
+    image: postgres:latest
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "5434:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "root"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db_data:
