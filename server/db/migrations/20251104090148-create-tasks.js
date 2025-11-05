@@ -3,10 +3,12 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
+    await queryInterface.sequelize.query('CREATE EXTENSION IF NOT EXISTS "pgcrypto";');
+
     await queryInterface.createTable('Tasks', {
       id: {
         type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
+        defaultValue: Sequelize.literal('gen_random_uuid()'),
         allowNull: false,
         primaryKey: true
       },
@@ -19,6 +21,7 @@ module.exports = {
       },
       status: {
         type: Sequelize.ENUM('To Do', 'In Progress', 'Done'),
+        allowNull: false,
         defaultValue: 'To Do'
       },
       createdAt: {
@@ -36,5 +39,6 @@ module.exports = {
 
   async down (queryInterface, Sequelize) {
     await queryInterface.dropTable('Tasks');
+    await queryInterface.sequelize.query('DROP TYPE IF EXISTS "enum_Tasks_status";');
   }
 };
