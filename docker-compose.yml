@@ -27,6 +27,19 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: task-frontend
+    restart: always
+    env_file:
+      - ./client/.env
+    ports: 
+      - "8080:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
 
 volumes:
   db_data:
