@@ -14,7 +14,7 @@ class TaskController {
 
   async create(req, res, next) {
     try {
-        // call service to create task
+      // call service to create task
       const task = await taskService.createTask(req.body);
       res.status(201).json(task);
     } catch (e) {
@@ -23,11 +23,13 @@ class TaskController {
     }
   }
 
-  async update(req, res, next) {
+  async updateStatus(req, res, next) {
     try {
-        // call service to update task
-      const task = await taskService.updateTask(req.params.id, req.body);
-      res.json(task);
+      const { id } = req.params;
+      const { status } = req.body;
+      // call service to update status
+      const task = await taskService.updateStatus(id, status);
+      res.status(200).json(task);
     } catch (e) {
         // fallback
       next(e);

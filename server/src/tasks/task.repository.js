@@ -11,11 +11,11 @@ class TaskRepository {
     return await Task.create(data);
   }
 
-  async update(id, data) {
-    // update data based on id
+  async updateStatus(id, status) {
+    // update status task based on id
     const task = await Task.findByPk(id);
     if (!task) return null;
-    return await task.update(data);
+    return await task.update({ status });
   }
 
   async delete(id) {

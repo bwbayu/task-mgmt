@@ -42,20 +42,15 @@ class TaskService {
     return await taskRepo.create(newTask); 
   }
 
-  async updateTask(id, data) {
-    // title field validation
-    if (!data.title || data.title.trim() === "") {
-        throw new BadRequestError('Title is required');
-    }
-
-    // update task based on id
-    const updated = await taskRepo.update(id, data);
+  async updateStatus(id, newStatus) {
+    // update status task based on id
+    const item = await taskRepo.updateStatus(id, newStatus);
 
     // error handling: task not found
-    if (!updated){
+    if (!item){
         throw new NotFoundError('Task not found');
     } 
-    return updated;
+    return item;
   }
 
   async deleteTask(id) {
